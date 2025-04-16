@@ -348,7 +348,7 @@ HTML = f"""
         chatBox.innerHTML = chat.map(msg =>
             `<div class="chat-msg ${{msg.role}}">
                 <span class="avatar">${{msg.role==="user"?"🧑":"🤖"}}</span>
-                <span class="bubble">${{escapeHTML(msg.content).replace(/(?:\r\n|\r|\n)/g, '<br>')}}</span>
+                <span class="bubble">${{escapeHTML(msg.content)}}</span>
             </div>`
         ).join('');
     }}
@@ -371,7 +371,7 @@ HTML = f"""
         addMessage("user", q);
         document.getElementById('chat-input').value='';
         document.getElementById('ask-btn').disabled = true;
-        chatStatus.innerHTML = '<span>🟦</span> Asking model...';
+        chatStatus.innerHTML = '<span style="color: #5176f8">●</span> Asking model...';
         let resp = await askQuestion(q);
         addMessage("llm", resp);
         chatStatus.innerHTML = '';
@@ -467,7 +467,7 @@ def ask_question():
         client = OpenAI(api_key=OPENAI_API_KEY)
         # responses API supports long context models
         resp = client.responses.create(
-            model="gpt-4.0-2025-04-14",
+            model="gpt-4.1-nano-2025-04-14",
             input=prompt
         )
         answer = resp.output_text.strip()
